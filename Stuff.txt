@@ -1,0 +1,41 @@
+#2-10 right hand
+u
+i
+o
+j
+k
+l
+m
+,
+.
+#12-21 left hand
+w
+e
+r
+s
+d
+f
+x
+c
+v
+#22-30 number pad
+7
+8
+9
+4
+5
+6
+1
+2
+3
+#32-41 custom
+
+
+
+
+
+
+
+
+
+#43 

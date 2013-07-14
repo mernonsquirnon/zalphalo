@@ -1,0 +1,22 @@
+ul=7
+uc=8
+ur=9
+action=1
+exit=1
+while exit
+        while action
+        print "This is zalpha. "ul". new game "uc". continue game "ur". help"/n ". exit"
+        action=raw_put("> ")
+            if action= up-left
+                print "Sure thing!"
+            elif action= up-cent
+                print "All right!"
+            elif action= up-right
+                print "I have no help for you. I can't even help myself."
+            elif action= mid-left
+                print "Okay!"
+                exit="1"
+            else
+                print "Sorry, what? I'm a stupid computer. You have to enter one of the numbers or letters or words or whatever that denotes an option. (It's before each period.)"
+            action=1
+raw_input("Bye!")    
