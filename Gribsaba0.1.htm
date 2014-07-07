@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+<meta charset="utf-8">
+<title>Gribsaba</title>
+</head>
+
+<body>
+<h1>Gribsaba</h1>
+<div id="game">
+
+<p id="roomTitle"></p>
+<p id="storyText"></p>
+<div id= "buttonsForGribsaba"></div>
+<script>
+var player ={
+ beansEaten : 0  
+};
+var currentRoom = "Main Menu";
+
+var rooms = {
+"Main Menu" :
+    {
+    "Description" : function( )
+        {
+        var d = "";
+        d += "Welcome to the very first Gribsaba Button & Text Adventure";
+        return d;
+        },
+    "Start" : 
+        {
+        "ImportantBit" : function( )
+            {currentRoom = "Coffee Shop";},
+        "Accessable" : function( )
+            {return true;}
+        },
+    "Chapter Select" : 
+        {
+        "ImportantBit" : function( )
+            {currentRoom = "Chapter Select";},
+        "Accessable" : function( )
+            {return true;}
+        },  
+    "Secret Button" :
+        {
+        "ImportantBit" : function( )
+            {},
+        "Accessable" : function( )
+            {return false;}
+        }, 
+"Help" : 
+        {
+        "ImportantBit" : function( )
+            {currentRoom = "Help";},
+        "Accessable" : function( )
+            {return true;}
+        },
+    },
+"Coffee Shop" :
+    {
+    "Description" : function( )
+        {
+        var d = "";
+        d += "It claims to be a coffee shop, but you're really just standing in a room full of coffee beans. " + (10000 - player.beansEaten) + " coffee beans, to be precise.";
+        if (rooms["Coffee Shop"]["Go to the Bungalow"].Accessable()){d += "You've eaten so many coffee beans, you can see the floor! And guess what, there's a trap door there that leads to Steve's Bungalow!";}
+        return d;
+        },
+    "Go to the Bungalow" : 
+        {
+        "ImportantBit" : function( )
+            {currentRoom = "Steve's Bungalow";},
+        "Accessable" : function( )
+            {return (player.coffeeBeansEaten > 7);}
+        },
+    "Eat a bean" : 
+        {
+        "ImportantBit" : function( )
+            {player.beansEaten++;},
+        "Accessable" : function( )
+            {return true;}
+        },    
+    "Quit" : 
+        {
+        "ImportantBit" : function( )
+            {currentRoom = "Main Menu";},
+        "Accessable" : function( )
+            {return true;}
+        },
+    },
+"Help" :
+    {
+         "Description" : function( )
+        {
+        return "I made this!";
+        },
+        "Back" : 
+        {
+        "ImportantBit" : function( )
+            {currentRoom = "Main Menu";},
+        "Accessable" : function( )
+            {return true;}
+        },
+    }
+};
+function doTheThing(whichButtonWasPressed) {
+    rooms[currentRoom][whichButtonWasPressed].ImportantBit();
+    refreshRoom();
+}
+function refreshRoom(){
+document.getElementById("storyText").innerHTML = rooms[currentRoom].Description();
+document.getElementById("roomTitle").innerHTML = currentRoom;
+refreshButtons(currentRoom);
+}
+function refreshButtons(room){
+    var parentDiv = document.getElementById("buttonsForGribsaba");
+    parentDiv.innerHTML = "";
+    for (var door in rooms[room]){
+        console.log(parentDiv);
+        if (door != "Description")
+        {
+        if (rooms[room][door].Accessable()){
+            var theNewButton = document.createElement("button");
+            theNewButton.appendChild(document.createTextNode(door));
+            theNewButton.setAttribute("onclick", 'doTheThing("'+ door +'")');
+            parentDiv.appendChild(theNewButton);
+            parentDiv.appendChild(document.createElement("BR"));
+        }
+        }
+    }
+}
+refreshRoom();
+</script>
+
+</div>
+
+
+</body>
+</html>
