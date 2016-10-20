@@ -1,38 +1,52 @@
+var roomhist = ["Main Menu"];
+//stack to track player's path
+//the current room is always roomhist[0],
+//the prev room is always roomhist[1], etc
+
+var title = document.getElementById("title");
+var content = document.getElementById("content");
+var ops = document.getElementById("ops");
+var hud = document.getElementById("hud");
+function action(text)
+{
+	clearall();
+	rooms[roomhist[0]](text)
+	refreshhud()//I'm too lazy to not hard-code this
+}
+function go(room)
+{
+	roomhist.unshift(room);
+	action("");
+}
+function clearall()
+{
+	title.innerHTML = "";
+	content.innerHTML = "";
+	ops.innerHTML = "";
+	//objects can override this if need be:
+	settitle(roomhist[0]);
+}
+function settitle(text)
+{	
+	title.innerHTML = "<h1>"+text+"</h1>";
+}
+function addcontent(text)
+{
+	content.innerHTML = content.innerHTML + text +"<br>";
+	//It's technically poor practice to disregard <p>s
+	//and just throw in <br>s when you need line breaks
+	//but I don't really buy into having two different linebreaks
+}
+function addop(text)
+{	
+	ops.innerHTML = ops.innerHTML + "<button onclick=\"action('"+text+"')\">"+text+"</button>";
+}
+function refreshhud()
+{
+	if (showhud == true)
+		{
+			hud.innerHTML = player.name +" | "+player.power+" | "+(inventory? "<i>Nothing</i>":inventory);
+		}
+}	
 //Here we go!
-		var currentroom = "Main Menu";
-		var title = document.getElementById("title");
-		var content = document.getElementById("content");
-		var ops = document.getElementById("ops");
-		function action(text)
-		{
-			rooms[currentroom](text)
-		}
-		function go(room)
-		{
-		currentroom = room;
-		rooms[room]("main");
-		clearall();
-		addtitle(room);//the main method can override if need be
-		}
-		function clearall()
-		{
-		title.innerHTML = "";
-		content.innerHTML = "";
-		ops.innerHTML = "";
-		}
-		function addtitle(text)
-		{			
-			title.innerHTML = "<h1>"+text+"</h1>";
-		}
-		function addcontent(text)
-		{
-			content.innerHTML = content.innerHTML + text;
-		}
-		function addop(text)
-		{			
-			var ops = document.getElementById("ops");
-			ops.innerHTML = "<button onclick=\"action('"+text+"')\">"+text+"</button>";
-		}
-		var rooms = {};
-		rooms['Main Menu'] = function(text){addtitle("Zalphalo");addcontent("Oh hi\nMark.");}
-		action("text");
+action("");
