@@ -1,12 +1,6 @@
 showhud =false;//shouldn't show before the game begins
 tutorialcomplete = false;
 player={name: "Zalphalo", power: 100, picture: "zalphalo"};
-monster = {};
-monsters =[
-	{name: "Bear", power: 15, picture: "bear"},
-	{name: "Dancing Bear", power: 20, picture: ["dancingbear", "dancingbear2", "dancingbear3"]},
-	{name: "Cybear", power: 25, picture: "cybear"}
-];
 
 
 oial= false;
@@ -15,15 +9,6 @@ var tutorialcompleted = false;
 var potterrescued = false;
 var apprenticerescued = false;
 var sonrescued = false;
-
-/*You can try to talk to any enemy in Zalphalo before you fight,
-but most of them are animals, or say things like:
-"What? Fuck you. Ffuck you! FUCK YOU."
-'	"Look buddy, look here real close.
-	This here is the chef-killing mantle. 
-	Once it goes on, it don't come off until I've killed a chef."
-	"I'm the only chef I've ever seen around here."
-	"WHAT A COINCIDENCE"'*/
 
 //figure out how to make this non-destructive, so to speak
 rooms['Main Menu'] = function(arg){
@@ -142,11 +127,14 @@ rooms['Home Town'] = function(arg){
 	}
 	addop("Talk to Miranda");
 	addop("Go Home");
-	addop("Leave Town");
 	addop("Go to the Potter's Shop");
 	addop("Go to Funston's Barn")
+	addop("Leave Town");
 	if(arg == "Go to the Potters Shop"){
 		go("The Potter's Shop");
+	}
+	if(arg == "Go to Funstons Barn"){
+		go("Funston's Barn");
 	}
 	if(arg == "Go Home"){
 		go("Home");
@@ -159,6 +147,38 @@ rooms['Home Town'] = function(arg){
 		}
 	}
 }
+
+var tennismachinedefeated = false;
+var millettaken = false;
+rooms["Funston's Barn"] = function(arg){
+	addcontent(img("Funston's Barn"));
+	addcontent("You are in Funston's Barn.");
+	if(!tennismachinedefeated){
+		addcontent("You can hear the whirring of your tennis machine-- "+
+		"a contraption that launches tennis balls at you for training purposes--"+
+		"coming from behind the barn.")
+		if(!inv.contains("tennis racket")){
+			addcontent("You've relieved your frustrations by hitting tennis balls"+
+			"plenty of times, but unless you find your racket"+
+			"it seems like you'll never beat the machine.");
+		}
+	}
+	if(arg == "Take Millet" && !millettaken){
+		inv.add({name: "Millet", count: "Sack of", umami: 1});
+		millettaken = true;
+	}
+	if(!millettaken){
+		addcontent("There is a bag of millet here.");
+		addop("Take Millet");
+	}
+	addop("Go out Back");
+	if(arg == "Go out Back"){
+		fight("Tennis Ball");
+	}
+	addop("Go back to the Town");
+	if(arg == "Go back to the Map"){go("Home Town");}
+}
+
 
 rooms["The Potter's Shop"] = function(arg){
 	if(potterrescued){
