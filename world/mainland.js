@@ -155,11 +155,11 @@ rooms["Funston's Barn"] = function(arg){
 	addcontent("You are in Funston's Barn.");
 	if(!tennismachinedefeated){
 		addcontent("You can hear the whirring of your tennis machine-- "+
-		"a contraption that launches tennis balls at you for training purposes--"+
+		"a contraption that launches tennis balls at you for training purposes-- "+
 		"coming from behind the barn.")
 		if(!inv.contains("tennis racket")){
-			addcontent("You've relieved your frustrations by hitting tennis balls"+
-			"plenty of times, but unless you find your racket"+
+			addcontent("You've relieved your frustrations by hitting tennis balls "+
+			"plenty of times, but unless you find your racket "+
 			"it seems like you'll never beat the machine.");
 		}
 	}

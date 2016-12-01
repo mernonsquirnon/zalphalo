@@ -14,3 +14,4 @@ rooms["Home"] = function(arg){
 		go("Home Town");
 	}
 }
+}

@@ -38,7 +38,7 @@ function settitle(arg){
 	title.innerHTML = "<h1>"+arg+"</h1>";
 }
 function addcontent(arg){
-	content.innerHTML = content.innerHTML + arg +"<br>";
+	content.innerHTML = content.innerHTML + arg.replace("\n","<br>") +"<br>";
 	//It's technically poor practice to disregard <p>s
 	//and just throw in <br>s when you need linebreaks
 	//but I don't really buy into having two different
