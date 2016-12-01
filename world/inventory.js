@@ -14,6 +14,9 @@ itemize://Turn an underspecified item into an item with default properties
 ,
 add://Add a negative number to remove items
 	function(item){
+		if (Array.isArray(item)){ //recurse on arrays
+			for(var i = 0; i < item; i++){inv.add(item[i]);}
+		} 
 		item = inv.itemize(item);
 		items = inv.items;
 		var added = false;
@@ -50,6 +53,10 @@ list:
 
 contains: //checks if a certain number (default 1) of an item is present
 	function(item){
+		if (Array.isArray(item)){ //recurse on arrays
+			tmp = true;
+			for(var i = 0; i < item; i++){tmp = tmp && inv.contains(item[i]);}
+		} 
 		item = inv.itemize(item);
 		items = inv.items;
 		var required = item.count;

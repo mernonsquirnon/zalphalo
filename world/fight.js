@@ -31,6 +31,7 @@ function defaulttalk(){
 
 function defaultlose(){
 addcontent("You win.");
+inv.add(monster.spoils);
 addop("Go Back");
 }
 
@@ -79,6 +80,7 @@ function monsterize(monster){//designed to be similar to inv's itemize
 		monster.win = monster.win? monster.win : defaultwin;
 		monster.lose = monster.lose? monster.lose : defaultlose;
 		monster.turn = monster.turn? monster.turn : defaultturn;
+		monster.spoils = monster.spoils? monster.spoils : [];
 		return monster;
 }
 
