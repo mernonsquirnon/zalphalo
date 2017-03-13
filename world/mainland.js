@@ -243,5 +243,43 @@ rooms['Talk to the Theologician'] = function(arg){
 		addcontent('"If you want to kill God," he says, "You\'re going to need trigger a nuclear explosion with this." he hands you the Eucharist. "This will get you to the God Realm. Good luck."');
 		inv.push({name: "Eucharist", umami: 1, plate: 0});
 	}
-	if (arg == "Go back"){go(roomhist[1]);} 
+	if (arg == "Go Back"){go(roomhist[1]);} 
+}
+
+rooms['The Soldier\'s Cross'] = function(arg){
+	if(arg == "Inspect the Dog Tags"){
+		addcontent('On one dog tag is engraved the phrase "IF GOD KILLS YOUR FAMILY". On the other "YOU KILL GOD BACK".\n\nYou Smile.');
+	}else if(arg == "Take the Dog Tags"){
+		addcontent('It would not do to desecrate a grave.');
+	}else{
+	addcontent('A pile of disturbed earth lies before you. Short, about the size of a small bed. At its head is a small wooden cross, on which dog tags hang.');
+	}
+	addop("Inspect the Dog Tags");
+	addop("Take The Dog Tags");
+	addop("Go Back");
+	if (arg == "Go Back"){go(roomhist[1]);} 
+}
+
+rooms['The Graveyard'] = function(arg){
+	addop("Look at Your Own Grave");
+	if(arg == "Look at your Grave"){
+	//I picture this grave as rectangular, with "bites" taken out of the top two corners 
+		addcontent('There it is. Your own grave, marked with a tombstone, waiting for you. On the tombstone is engraved the phrase "HIC EST ZALPHALO". And hic you est, indeed.');
+	}
+	addop("Look at Your Family's Graves");
+	if(arg == "Look at Your Familys Graves"){
+	//I picture these graves as rounded
+		addcontent('On either side of your own grave are the grave of your daughter and the grave of your wife. What was left of them. The graves are marked by tombstones, but they are smooth and unengraved; you weren\'t sure what to put on them. You thought about putting the date, but you\'re never really sure of the date anymore. You thought about putting their names, but you didn\'t want them to be dead.');
+	}
+	addop("Go Back");
+	if (arg == "Go Back"){go(roomhist[1]);} 
+}
+
+rooms[''] = function(arg){
+	if(arg == ""){
+		addcontent('');
+		addop('');
+	}
+	addop("Go Back");
+	if (arg == "Go Back"){go(roomhist[1]);} 
 }
