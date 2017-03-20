@@ -1,8 +1,10 @@
 //FOR INTERNAL USE:
 var title = document.getElementById("title");
 var content = document.getElementById("content");
-var ops = document.getElementById("ops");
-var hud = document.getElementById("hud");
+var ops = document.getElementById("ops"); //options
+var hud = document.getElementById("hud"); //heads-up display
+var himg = document.getElementById("himg"); //header image
+
 
 function refreshhud(){
 	if (showhud == true){
@@ -15,6 +17,7 @@ function clearall(){
 	ops.innerHTML = "";
 	//objects can override this if need be:
 	settitle(roomhist[0]);
+	himg.innerHTML = "";
 }
 
 //FOR EXTERNAL USE:
@@ -27,6 +30,7 @@ var roomhist = ["Main Menu"];
 
 function action(arg){
 	clearall();
+	sethimg(roomhist[0],arg);
 	rooms[roomhist[0]](arg)
 	refreshhud()//I'm too lazy to not hard-code this
 }
@@ -50,6 +54,13 @@ function addop(arg){
 	ops.innerHTML = ops.innerHTML + "<button onclick=\"action('"+actionarg+"')\">"+arg+"</button>";
 }
 
-function img(arg){return "<img src='"+arg+".png'>"}
+function imgfile(arg){return "assets/"+arg+".png"}
+function img(arg){return "<img src='"+imgfile(arg)+"'>"}
+function sethimg(room, op){
+	//note that this fn may not give you the img you expect for some reason...
+	if(room && op){himg.innerHTML = "<img src='"+imgfile(room+"/"+op)+"' onerror=\"sethimg('"+room+"', null);\">"; console.log(1+himg.innerHTML)}
+	else if(room){himg.innerHTML = "<img src='"+imgfile(room+"/index")+"' onerror='sethimg(null, null);'>"; console.log(2+himg.innerHTML)}
+	else{himg.innerHTML = ""; console.log(3+himg.innerHTML)}
+}
 //Here we go!
 action("");

@@ -143,7 +143,7 @@ rooms['Home Town'] = function(arg){
 		if(tutorialcomplete){
 			go("Map");
 		} else {
-			addcontent("You must gather supplies before you can leave town!");
+			addcontent("<b>You must gather supplies before you can leave town!</b>");
 		}
 	}
 }
