@@ -40,13 +40,13 @@ rooms['Intro'] = function(arg){
 rooms['Help'] = function(arg){
 	addcontent("I made this!");
 	addop("Go back");
-	if (arg == "Go back"){go(roomhist[1]);} 
+	if (arg == "Go back"){go(roomhist[1]);}
 }
 
 rooms["Options"] = function(arg){
 	addcontent("Look, man, your only options are to play the game or not play the game, man.");
 	addop("Go back");
-	if (arg == "Go back"){go(roomhist[1]);} 
+	if (arg == "Go back"){go(roomhist[1]);}
 }
 
 
@@ -61,7 +61,7 @@ without most of a roof.*/
 "In another part of the world<br></i></center>");
 		oial = true;
 	}
-	
+
 	if(arg == "Use Bed"){
 		if (player.power < 100){
 			addcontent(img('bed'));
@@ -96,15 +96,15 @@ without most of a roof.*/
 	{
 		go("Home Town");
 	}
-	
+
 }
 
 rooms['<i>Working Lunch</i>'] = function(arg){
 	addcontent("You open your tattered and dog-eared copy of <i>Working Lunch: A Cookbook</i>. Your eyes catch a snippet of the preface:"+
- "<blockquote>...The title of this book is, in fact, a quadruple entendre: First of all, there is the sense of a \"Working Lunch\" in which one might discuss business over food. When you read this book, we are fulfilling that sense, because I am discussing your business with you over food. Secondly, every lunch a chef partakes in is a \"Working Lunch\" of a different sort, because one must experience flavors through meals in order to improve one's craft. Thirdly, there is the sense that a chef will often be \"Working Lunch\", ie making the lunches at a restaurant. Fourthly, the title of this book conveys one of the main messages of the book, consistent improvement: whatever meal you create is not a final, perfect lunch-- there is always room for experiment, improvement-- it is a \"Working Lunch\"....</blockquote>"+
+ "<blockquote>...The title of this book is, in fact, a quadruple entendre: First of all, there is the sense of a \"Working Lunch\" in which one might discuss business over food. When you read this book, we are fulfilling that sense, because I am discussing your business with you over food. Secondly, every lunch a chef partakes in is a \"Working Lunch\" of a different sort, because one must experience flavors through meals in order to improve one's craft. Thirdly, there is the sense that a chef will often be \"Working Lunch\", ie making the lunches at a restaurant. Fourthly, Fifth, the title of this book conveys one of the main messages of the book, consistent improvement: whatever meal you create is not a final, perfect lunch-- there is always room for experiment, improvement-- it is a \"Working Lunch\"....</blockquote>"+
 	"Before everything went to shit, this was a pretty important book. Now only Chapter 3, <i>On The First Principles of Chefjutsu</i>, matters anymore. You turn to that page, and begin to read."+
 	"<blockquote>Chefjustu is the art of using food not for eating, but for combat. The basic idea of chefjustu is to combine foods together on a plate, and then hurl the plate at your opponent.<br>"+
-	"There are 5 different basic tastes: Sweet(♥), Salty(♦), Sour(♣), Bitter(♠), and Umami(<b>U</b>). In any given dish, the amount of Sweet must equal the amount of Bitter, the amount of Salty must equal the amount of Sour, and the amount of Umami must equal or exceed the sum total of the four other flavors.<br>"+
+	"There are 5 different basic tastes: Sweet(♥), Salty(♦), Sour(♠), Bitter(♣), and Umami(<b>U</b>). In any given dish, the amount of Sweet must equal the amount of Bitter, the amount of Salty must equal the amount of Sour, and the amount of Umami must equal or exceed the sum total of the four other flavors.<br>"+
 	"The size of your plate will limit the number of items you can fit on it. Your power (the little italicized number in the Heads-Up Display at the bottom of the screen) divided 100 will be multiplied by your flavor score, as it represents how healthy you are and thus how hard you can throw the plate.</blockquote>"+
 	"The rest of the book mostly involves ingredients that you'd have to get from a grocery store. Grocery stores are notoriously hard to find in the post-apocalyptic wasteland, so you close the book.");
 	addop("Go back");
@@ -243,7 +243,7 @@ rooms['Talk to the Theologician'] = function(arg){
 		addcontent('"If you want to kill God," he says, "You\'re going to need trigger a nuclear explosion with this." he hands you the Eucharist. "This will get you to the God Realm. Good luck."');
 		inv.push({name: "Eucharist", umami: 1, plate: 0});
 	}
-	if (arg == "Go Back"){go(roomhist[1]);} 
+	if (arg == "Go Back"){go(roomhist[1]);}
 }
 
 rooms['The Soldier\'s Cross'] = function(arg){
@@ -257,13 +257,13 @@ rooms['The Soldier\'s Cross'] = function(arg){
 	addop("Inspect the Dog Tags");
 	addop("Take The Dog Tags");
 	addop("Go Back");
-	if (arg == "Go Back"){go(roomhist[1]);} 
+	if (arg == "Go Back"){go(roomhist[1]);}
 }
 
 rooms['The Graveyard'] = function(arg){
 	addop("Look at Your Own Grave");
 	if(arg == "Look at your Grave"){
-	//I picture this grave as rectangular, with "bites" taken out of the top two corners 
+	//I picture this grave as rectangular, with "bites" taken out of the top two corners
 		addcontent('There it is. Your own grave, marked with a tombstone, waiting for you. On the tombstone is engraved the phrase "HIC EST ZALPHALO". And hic you est, indeed.');
 	}
 	addop("Look at Your Family's Graves");
@@ -272,7 +272,7 @@ rooms['The Graveyard'] = function(arg){
 		addcontent('On either side of your own grave are the grave of your daughter and the grave of your wife. What was left of them. The graves are marked by tombstones, but they are smooth and unengraved; you weren\'t sure what to put on them. You thought about putting the date, but you\'re never really sure of the date anymore. You thought about putting their names, but you didn\'t want them to be dead.');
 	}
 	addop("Go Back");
-	if (arg == "Go Back"){go(roomhist[1]);} 
+	if (arg == "Go Back"){go(roomhist[1]);}
 }
 
 rooms[''] = function(arg){
@@ -281,5 +281,5 @@ rooms[''] = function(arg){
 		addop('');
 	}
 	addop("Go Back");
-	if (arg == "Go Back"){go(roomhist[1]);} 
+	if (arg == "Go Back"){go(roomhist[1]);}
 }
