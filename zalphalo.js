@@ -1,16 +1,21 @@
+//# Zalphalo #
+//This big, beautiful source document is split into many parts
+//each one titled with a comment in the style of a markdown title
+//with the hashmarks. This file contains the entire game Zalphalo,
+//but relies on some utility funcitons from gribsaba.js,
+//such as addcontent().
+
+//##Misc variables and stuff
 showhud =false;//shouldn't show before the game begins
-tutorialcomplete = false;
-player={name: "Zalphalo", power: 100, picture: "zalphalo"};
-
-
-oial= false;
+var player={name: "Zalphalo", power: 100, picture: "zalphalo"};
+var oial= false;
 var plothooked = false;
-var tutorialcompleted = false;
+var tutorialcomplete = false;
 var potterrescued = false;
 var apprenticerescued = false;
 var sonrescued = false;
 
-//figure out how to make this non-destructive, so to speak
+//##Main Menu##
 rooms['Main Menu'] = function(arg){
 	if(arg == ''){
 		settitle("Zalphalo");
@@ -49,7 +54,18 @@ rooms["Options"] = function(arg){
 	if (arg == "Go back"){go(roomhist[1]);}
 }
 
+//##Map##
+rooms = {};
+rooms['Map'] = function(arg){
 
+}
+function map(x,y) {return "@";}
+
+maparray = [
+[""],
+];
+
+//##The Mainland##
 rooms['Home'] = function(arg){
 /*I imagine Working Lunch is on a little pedestal/shine in the home,
 and I imagine the home is small and also in a state of destruction,
@@ -103,9 +119,7 @@ rooms['<i>Working Lunch</i>'] = function(arg){
 	addcontent("You open your tattered and dog-eared copy of <i>Working Lunch: A Cookbook</i>. Your eyes catch a snippet of the preface:"+
  "<blockquote>...The title of this book is, in fact, a quadruple entendre: First of all, there is the sense of a \"Working Lunch\" in which one might discuss business over food. When you read this book, we are fulfilling that sense, because I am discussing your business with you over food. Secondly, every lunch a chef partakes in is a \"Working Lunch\" of a different sort, because one must experience flavors through meals in order to improve one's craft. Thirdly, there is the sense that a chef will often be \"Working Lunch\", ie making the lunches at a restaurant. Fourthly, Fifth, the title of this book conveys one of the main messages of the book, consistent improvement: whatever meal you create is not a final, perfect lunch-- there is always room for experiment, improvement-- it is a \"Working Lunch\"....</blockquote>"+
 	"Before everything went to shit, this was a pretty important book. Now only Chapter 3, <i>On The First Principles of Chefjutsu</i>, matters anymore. You turn to that page, and begin to read."+
-	"<blockquote>Chefjustu is the art of using food not for eating, but for combat. The basic idea of chefjustu is to combine foods together on a plate, and then hurl the plate at your opponent.<br>"+
-	"There are 5 different basic tastes: Sweet(♥), Salty(♦), Sour(♠), Bitter(♣), and Umami(<b>U</b>). In any given dish, the amount of Sweet must equal the amount of Bitter, the amount of Salty must equal the amount of Sour, and the amount of Umami must equal or exceed the sum total of the four other flavors.<br>"+
-	"The size of your plate will limit the number of items you can fit on it. Your power (the little italicized number in the Heads-Up Display at the bottom of the screen) divided 100 will be multiplied by your flavor score, as it represents how healthy you are and thus how hard you can throw the plate.</blockquote>"+
+	chefjutsuexplanation+
 	"The rest of the book mostly involves ingredients that you'd have to get from a grocery store. Grocery stores are notoriously hard to find in the post-apocalyptic wasteland, so you close the book.");
 	addop("Go back");
 	if (arg == "Go back"){go(roomhist[1]);}
@@ -282,4 +296,240 @@ rooms[''] = function(arg){
 	}
 	addop("Go Back");
 	if (arg == "Go Back"){go(roomhist[1]);}
+}
+
+//##Sapphire Island##
+
+//##Lupa Minora##
+
+//##Lupa Majora##
+
+//##Godrealm##
+function ascend(){
+rooms = {};
+rooms["Home"] = function(arg){
+	if(text == "Look in Mirror"){
+		addcontent("<img src='assests/god/zalphalo.png'></img>");
+		addcontent("Yep. That's you.");
+	} else {
+		addcontent("<img src='assets/god/home.png'></img>");
+	}
+	addcontent("You are in your home.")
+	addop("Look in Mirror");
+	addop("Leave Home");
+	if(text == "Leave Home"){
+		go("Home Town");
+	}
+}
+}
+
+//##Inventory##
+inv = {
+
+items: [], //items can be set to [] to clear the inventory.
+
+itemize://Turn an underspecified item into an item with default properties
+	function(item){
+		if(typeof item === 'string' || item instanceof String){
+			item = {name: item};
+		}
+		item.count = (item.count? item.count : 1);//assume no count = 1
+		item.plural = (item.plural? item.plural : item.name +"s");
+		return item;
+	}
+,
+add://Add a negative number to remove items
+	function(item){
+		if (Array.isArray(item)){ //recurse on arrays
+			for(var i = 0; i < item; i++){inv.add(item[i]);}
+		}
+		item = inv.itemize(item);
+		items = inv.items;
+		var added = false;
+		for(var i=0; i<items.length; i++){
+			if (items[i].name == item.name){
+				items[i].count += item.count
+				added = true;
+			}
+		}
+		if(!added){items.push(item);}
+	}
+,
+
+list:
+	function(){
+		items = inv.items;
+		list = "";
+		if (items.length == 0){return "<i>Nothing</i>";}
+		else{
+			for(var i=0; i< items.length; i++){
+				var item = items[i];
+				if(item.count > 1){
+					list += item.count +" "+ item.plural;
+				}
+				else{
+					list += item.name;
+				}
+				list += (i<items.length-1?", ":"");
+			}
+		}
+		return list;
+	}
+,
+
+contains: //checks if a certain number (default 1) of an item is present
+	function(item){
+		if (Array.isArray(item)){ //recurse on arrays
+			tmp = true;
+			for(var i = 0; i < item; i++){tmp = tmp && inv.contains(item[i]);}
+		}
+		item = inv.itemize(item);
+		items = inv.items;
+		var required = item.count;
+		for(var i=0; i<items.length; i++){
+			if (items[i].name == item.name){
+				required -= items[i].count;
+			}
+		}
+		return required <= 0;
+	}
+}
+
+//##Fight##
+symbols.sweet = "♥" //heart = love = sweet
+symbols.salty = "♦" //salt crytals sort of look like this
+symbols.sour = "♠" //a "sharp" taste... though bitter is also called "sharp" sometimes
+symbols.bitter = "♣"//literal clovers are bitter, taste planty. I'm told.
+symbols.umami = "<b>U</b>"//other candidates for this symbol include:
+//★, ☆, †, or 🍖 (meat on bone emoji)
+monster = {};
+combo = [];
+monsters = [
+	{name: "Bear", power: 15},
+	{name: "Dancing Bear", power: 20, pictures: ["dancingbear", "dancingbear2", "dancingbear3"]},
+	{name: "Cybear", power: 25},
+	{name: "Bunny", power: 2},
+	{name: "Cyberbunny", power: 12},
+	{name: "Elk", power: 12},
+	{name: "Cyberelk", power: 22},
+	{name: "Bandit", power: 22},
+	{name: "Motorcycle Bandit", power: 32},
+	{name: "Car Bandit", power: 42},
+	{name: "Truck Bandit", power: 52},
+	{name: "Monster Truck Bandit", power: 102},
+	{name: "Horse Thief", power: 22},
+	{name: "Tennis Ball", power: 1},
+	{name: "", power: 0},
+	{name: "", power: 0},
+	{name: "", power: 0},
+	{name: "", power: 0},
+
+];
+
+function defaulttalk(){
+	addcontent("Your adversary seems uninterested in talking. "+
+	"Looks like you'll have to fight");
+	addop("Fight")
+	if(arg == "Fight"){go("Fight");}
+}
+
+function defaultlose(){
+addcontent("You win.");
+inv.add(monster.spoils);
+addop("Go Back");
+}
+
+function defaultwin(){
+addcontent("You lose.");
+addop("Go Back");
+}
+
+function defaultflee(){
+if(simplecontest()){
+			addcontent("You escaped. Congratulations, coward.")
+			addop("Go Back");
+		} else {
+			addcontent("You fail to escape. Now you must fight.");
+			addop("Fight");
+		}
+}
+
+function defaultturn(combo){
+	//todo: this
+}
+
+function simplecontest(){
+return Math.random()*player.power > Math.random()*monster.power;
+}
+
+function monsterretrieve(monstername){
+	for(var i=0; i<monsters.length; i++){
+		if (monsters[i].name == monstername){
+			return monsters[i];
+		}
+	}
+}
+
+function monsterize(monster){//designed to be similar to inv's itemize
+	if(typeof monster === 'string' || monster instanceof String){
+		monster = {name: monster};
+	}
+		monster.power = (monster.power? monster.power : 1);//assume no power = 1
+		monster.talk = (monster.talk? monster.talk : defaulttalk)
+		if(monster.pictures !== false && !monster.pictures){//false means purposefully nothing
+			monster.pictures = [monster.name.toLowerCase()];
+		}
+		//these should be defined as the monster doing something
+		monster.flee = monster.flee? monster.flee : defaultflee;
+		monster.win = monster.win? monster.win : defaultwin;
+		monster.lose = monster.lose? monster.lose : defaultlose;
+		monster.turn = monster.turn? monster.turn : defaultturn;
+		monster.spoils = monster.spoils? monster.spoils : [];
+		return monster;
+}
+
+function pic(){
+	return img(monster.pictures[Math.floor(Math.random() * pictures.length)])
+}
+
+rooms['prefight'] = function(arg){
+	settitle(monster.name);
+	if(monster.pictures){
+		addcontent(pic);
+	}
+	if(arg == "Talk"){
+		monster.talk();
+	} else if (arg == "Flee"){
+		monster.flee();
+	} else if (arg == "Continue"){
+		go(roomhist[1]);
+	} else if(arg == "Fight"){
+		go("Fight");
+	} else {
+	addop("Fight");
+	addop("Talk");
+	addop("Flee");
+	}
+}
+chefjutsuexplanation = "<blockquote>Chefjustu is the art of using food not for eating, but for combat. The basic idea of chefjustu is to combine foods together on a plate, and then hurl the plate at your opponent.<br>"+
+	"There are 5 different basic tastes: Sweet("+symbols.sweet+"), Salty("+symbols.sweet+"), Sour("+symbols.sour+"), Bitter("+symbols.bitter+"), and Umami("+symbols.umami+"). In any given dish, the amount of Sweet must equal the amount of Sour, the amount of Salty must equal the amount of Bitter, and the amount of Umami must equal or exceed the sum total of the four other flavors.<br>"+
+	"The size of your plate will limit the number of items you can fit on it. Your power (the little italicized number in the Heads-Up Display at the bottom of the screen) divided 100 will be multiplied by your flavor score, as it represents how healthy you are and thus how hard you can throw the plate.</blockquote>"+
+
+rooms['Fight'] = function(arg){
+addcontent("<table id='fight table'>"+
+"<tr><td><img src='"+player.picture+"'></td><td>vs</td><td><img src='"+monster.picture+"'></td></tr>"+
+"<tr>Current combo:"+combo+"</tr></table>");
+	if (arg == "Help"){
+		addcontent("You remember the relevant portion of your favorite cookbook:" + chefjutsuexplanation);
+	}
+	if (arg == "Go Back"){go(roomhist[1]);}
+}
+
+function fight(monstername){
+	monster = monsterretrieve(monstername);
+	monster = monsterize(monster);
+	yourturn = true;
+	go("Fight"); //remember not to load more than one room on the prevroom stack!
+		//DUMMY FIGHITING FUNCTION:
+	monster.lose();
 }
