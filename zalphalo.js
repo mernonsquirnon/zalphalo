@@ -21,13 +21,24 @@ symbols = {};
 rooms['Main Menu'] = function(arg){
 	if(arg == ''){
 		settitle("Zalphalo");
-		addcontent("Welcome to Zalphalo! Good to have you with us!");
+		addcontent("<pre>"+
+			"  ______     _       _           _       \n"+
+			" |___  /    | |     | |         | |      \n"+
+			"    / / __ _| |_ __ | |__   __ _| | ___  \n"+
+			"   / / / _` | | '_ \\| '_ \\ / _` | |/ _ \\ \n"+
+			"  / /_| (_| | | |_) | | | | (_| | | (_) |\n"+
+			" /_____\\__,_|_| .__/|_| |_|\\__,_|_|\\___/ \n"+
+			"              | |                        \n"+
+			"              |_|                        \n"+
+			"</pre>\n"+
+			"Welcome to Zalphalo! Good to have you with us!"
+		);
 		addop('Begin the Adventure!');
 		addop("Options");
 		addop("Help");
 	}
 	if(arg == 'Begin the Adventure!'){
-		go("Intro");
+		go("Home");
 	}
 	if(arg == "Options"){
 		go("Options");
@@ -36,13 +47,13 @@ rooms['Main Menu'] = function(arg){
 		go("Help");
 }
 
-rooms['Intro'] = function(arg){
+/*rooms['Intro'] = function(arg){
 			addcontent("Yesterday, God created the world.");
 			addcontent("Tomorrow, He will end it.");
 			addcontent("Kill him before he does.");
 			addop("Continue");
 			if(arg=="Continue"){go("Home");}
-}
+}*/
 
 rooms['Help'] = function(arg){
 	addcontent("I made this!");
@@ -71,7 +82,7 @@ rooms['Home'] = function(arg){
 /*I imagine Working Lunch is on a little pedestal/shine in the home,
 and I imagine the home is small and also in a state of destruction,
 without most of a roof.*/
-	if(!oial){
+	if(!oial){//epigraph, i guess. Maybe put more in other places, maybe less
 		addcontent("<center><i>And you may find yourself<br>"+
 "Living in a shotgun shack<br>"+
 "And you may find yourself<br>"+
@@ -118,7 +129,7 @@ without most of a roof.*/
 
 rooms['<i>Working Lunch</i>'] = function(arg){
 	addcontent("You open your tattered and dog-eared copy of <i>Working Lunch: A Cookbook</i>. Your eyes catch a snippet of the preface:"+
- "<blockquote>...The title of this book is, in fact, a quadruple entendre: First of all, there is the sense of a \"Working Lunch\" in which one might discuss business over food. When you read this book, we are fulfilling that sense, because I am discussing your business with you over food. Secondly, every lunch a chef partakes in is a \"Working Lunch\" of a different sort, because one must experience flavors through meals in order to improve one's craft. Thirdly, there is the sense that a chef will often be \"Working Lunch\", ie making the lunches at a restaurant. Fourthly, Fifth, the title of this book conveys one of the main messages of the book, consistent improvement: whatever meal you create is not a final, perfect lunch-- there is always room for experiment, improvement-- it is a \"Working Lunch\"....</blockquote>"+
+ "<blockquote>...The title of this book is, in fact, a quadruple entendre: First of all, there is the sense of a \"Working Lunch\" in which one might discuss business over food. When you read this book, we are fulfilling that sense, because I am discussing your business with you over food. Secondly, every lunch a chef partakes in is a \"Working Lunch\" of a different sort, because one must experience flavors through meals in order to improve one's craft. Thirdly, there is the sense that a chef will often be \"Working Lunch\", ie making the lunches at a restaurant. Fourthly, the title is meant to evoke the euphamism of a \"Working Girl\" as every act of culinary creation is intimate, and thus exchanging food for money must be akin to prostitution. Fifth, the title of this book conveys one of the main messages of the book, consistent improvement: whatever meal you create is not a final, perfect lunch-- there is always room for experiment, improvement-- it is a \"Working Lunch\"....</blockquote>"+
 	"Before everything went to shit, this was a pretty important book. Now only Chapter 3, <i>On The First Principles of Chefjutsu</i>, matters anymore. You turn to that page, and begin to read."+
 	chefjutsuexplanation+
 	"The rest of the book mostly involves ingredients that you'd have to get from a grocery store. Grocery stores are notoriously hard to find in the post-apocalyptic wasteland, so you close the book.");
@@ -145,7 +156,7 @@ rooms['Home Town'] = function(arg){
 	addop("Go to the Potter's Shop");
 	addop("Go to Funston's Barn")
 	addop("Leave Town");
-	if(arg == "Go to the Potters Shop"){
+	if(arg == "Go to the Potter's Shop"){
 		go("The Potter's Shop");
 	}
 	if(arg == "Go to Funstons Barn"){
