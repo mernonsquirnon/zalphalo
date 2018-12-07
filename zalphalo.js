@@ -38,7 +38,7 @@ rooms['Main Menu'] = function(arg){
 		addop("Help");
 	}
 	if(arg == 'Begin the Adventure!'){
-		go("Home");
+		go('An Understanding Barely Tasted In A Dream The Night Before');
 	}
 	if(arg == "Options"){
 		go("Options");
@@ -47,13 +47,13 @@ rooms['Main Menu'] = function(arg){
 		go("Help");
 }
 
-/*rooms['Intro'] = function(arg){
-			addcontent("Yesterday, God created the world.");
-			addcontent("Tomorrow, He will end it.");
+rooms['An Understanding Barely Tasted In A Dream The Night Before'] = function(arg){
+			addcontent("In seven days, God created the world.");
+			addcontent("In seven days, He will end it.");
 			addcontent("Kill him before he does.");
-			addop("Continue");
-			if(arg=="Continue"){go("Home");}
-}*/
+			addop("Wake up");
+			if(arg=="Wake up"){go("Home");}
+}
 
 rooms['Help'] = function(arg){
 	addcontent("I made this!");
