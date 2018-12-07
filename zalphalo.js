@@ -8,7 +8,7 @@
 //##Misc variables and stuff
 showhud =false;//shouldn't show before the game begins
 player={name: "Zalphalo", power: 100, picture: "zalphalo"};
-var oial= false;
+var epigraph= false;
 var plothooked = false;
 var tutorialcomplete = false;
 var potterrescued = false;
@@ -82,12 +82,13 @@ rooms['Home'] = function(arg){
 /*I imagine Working Lunch is on a little pedestal/shine in the home,
 and I imagine the home is small and also in a state of destruction,
 without most of a roof.*/
-	if(!oial){//epigraph, i guess. Maybe put more in other places, maybe less
+	if(!epigraph){//Maybe put more epigraphs in other places, maybe less
 		addcontent("<center><i>And you may find yourself<br>"+
 "Living in a shotgun shack<br>"+
 "And you may find yourself<br>"+
-"In another part of the world<br></i></center>");
-		oial = true;
+			   "In another part of the world<br></i></center>");
+	    //This is from Once In A Lifetime, but I have elected to leave it uncited, as it looks cleaner that way.
+		epigraph = true;
 	}
 
 	if(arg == "Use Bed"){
