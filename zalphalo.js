@@ -81,7 +81,8 @@ maparray = [
 rooms['Home'] = function(arg){
 /*I imagine Working Lunch is on a little pedestal/shine in the home,
 and I imagine the home is small and also in a state of destruction,
-without most of a roof.*/
+without most of a roof. There is an empty bottle of cooking sherry
+floor, which you drank the night before your adventure started.*/
 	if(!epigraph){//Maybe put more epigraphs in other places, maybe less
 		addcontent("<center><i>And you may find yourself<br>"+
 "Living in a shotgun shack<br>"+
