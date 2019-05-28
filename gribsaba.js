@@ -10,6 +10,7 @@ function refreshhud(){
 		hud.innerHTML = player.name +" | "+player.power+" | "+inv.list();
 	} else {
 		hud.innerHTML = "";
+	}
 }
 function clearall(){
 	title.innerHTML = "";
@@ -93,7 +94,7 @@ function addroom(title, main, doors, items, nooks, slots, commentary){
 	if (!commentary){commentary=""}
 }
 
-displayroom(room, arg){
+function displayroom(room, arg){
 	var main = room.main
 	var doors = room.doors
 	var door
@@ -127,7 +128,7 @@ displayroom(room, arg){
 		addcontent(main);
 
 		if (arg == d[1]){go(d[0])};
-	}
+	//}
 
 }
 
