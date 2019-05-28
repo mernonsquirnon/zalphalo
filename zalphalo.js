@@ -526,7 +526,7 @@ rooms['prefight'] = function(arg){
 	}
 }
 var chefjutsuexplanation = "<blockquote>Chefjustu is the art of using food not for eating, but for combat. The basic idea of chefjustu is to combine foods together on a plate, and then hurl the plate at your opponent.<br>"+
-	"There are 5 different basic tastes: Sweet("+symbols.sweet+"), Salty("+symbols.sweet+"), Sour("+symbols.sour+"), Bitter("+symbols.bitter+"), and Umami("+symbols.umami+"). In any given dish, the amount of Sweet must equal the amount of Sour, the amount of Salty must equal the amount of Bitter, and the amount of Umami must equal or exceed the sum total of the four other flavors.<br>"+
+	"There are 5 different basic tastes: Sweet("+symbols.sweet+"), Salty("+symbols.salty+"), Sour("+symbols.sour+"), Bitter("+symbols.bitter+"), and Umami("+symbols.umami+"). In any given dish, the amount of Sweet must equal the amount of Sour, the amount of Salty must equal the amount of Bitter, and the amount of Umami must equal or exceed the sum total of the four other flavors.<br>"+
 	"The size of your plate will limit the number of items you can fit on it. Your power (the little italicized number in the Heads-Up Display at the bottom of the screen) divided 100 will be multiplied by your flavor score, as it represents how healthy you are and thus how hard you can throw the plate.</blockquote>";
 
 rooms['Fight'] = function(arg){
