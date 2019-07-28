@@ -96,7 +96,7 @@ floor, which you drank the night before your adventure started.*/
 		if (player.power < 100){
 			addcontent(img('bed'));
 			player.power = 100;
-			addcontent("You sleep deep, dreamless sleep. Your power has been restored to 10")
+			addcontent("You sleep deep, dreamless sleep. Your power has been restored to 100")
 		} else if (player.power == 100){
 			addcontent(img('bed'));
 			player.power = 100;
