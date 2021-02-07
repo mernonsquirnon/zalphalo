@@ -212,7 +212,7 @@ rooms["Funston's Barn"] = function(arg){
 		fight("Tennis Ball");
 	}
 	addop("Go back to the Town");
-	if(arg == "Go back to the Map"){go("Home Town");}
+	if(arg == "Go back to the Town"){go("Home Town");}
 }
 
 

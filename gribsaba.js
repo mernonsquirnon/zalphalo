@@ -62,11 +62,11 @@ function addcommentary(arg){
   }
 }
 
-function imgfile(arg){return "assets/"+arg+".png"}
-function img(arg){return "<img src='"+imgfile(arg)+"'>"}
+function imgfile(arg){return "assets/"+arg.replace("\'","")+".png"}
+function img(arg){return "<img src='"+imgfile(arg.replace("\'",""))+"'>"}
 function sethimg(room, op){
 	//note that this fn may not give you the img you expect for some reason...
-	if(room && op){himg.innerHTML = "<img src='"+imgfile(room+"/"+op)+"' onerror=\"sethimg('"+room+"', null);\">"; console.log(1+himg.innerHTML)}
+	if(room && op){himg.innerHTML = "<img src='"+imgfile(room+"/"+op)+"' onerror=\"sethimg('"+room.replace("\'","")+"', null);\">"; console.log(1+himg.innerHTML)}
 	else if(room){himg.innerHTML = "<img src='"+imgfile(room+"/index")+"' onerror='sethimg(null, null);'>"; console.log(2+himg.innerHTML)}
 	else{himg.innerHTML = ""; console.log(3+himg.innerHTML)}
 }
