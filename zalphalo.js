@@ -6,7 +6,8 @@
 //such as addcontent().
 
 //##Misc variables and stuff
-showhud =false;//shouldn't show before the game begins
+showhud = false;//shouldn't show before the game begins
+showcommentary = false; //off unless the player turns it on.
 player={name: "Zalphalo", power: 100, picture: "zalphalo"};
 var epigraph= false;
 var plothooked = false;
@@ -34,17 +35,29 @@ rooms['Main Menu'] = function(arg){
 			"Welcome to Zalphalo! Good to have you with us!"
 		);
 		addop('Begin the Adventure!');
+
 		addop("Options");
 		addop("Help");
 	}
 	if(arg == 'Begin the Adventure!'){
-		go('An Understanding Barely Tasted In A Dream The Night Before');
+		return go('An Understanding Barely Tasted In A Dream The Night Before');
 	}
+  if(arg == "Disable Authors Commentary"){ showcommentary = false; }
 	if(arg == "Options"){
-		go("Options");
+		return go("Options");
 	}
 	if(arg == "Help")
-		go("Help");
+		return go("Help");
+
+  //since I put this content below the ops here, it would render in the next page too, so I had to return the go calls to prevent this...
+
+  if(!showcommentary){
+    addcontent("<button onclick=\"showcommentary = true; action('');\">Enable Authors Commentary</button>");
+  }
+  if(showcommentary){
+    addcontent("<button onclick=\"showcommentary = false; action('');\">Disable Authors Commentary</button>");
+  }
+  addcommentary("Author's commentary is on.");
 }
 
 rooms['An Understanding Barely Tasted In A Dream The Night Before'] = function(arg){
@@ -69,13 +82,8 @@ rooms["Options"] = function(arg){
 
 //##Map##
 rooms['Map'] = function(arg){
-
+  addcommentary("I realized, despite my irrational tendency to reflexively create grid-based overworld navigation, Zalphalo doesn't NEED that. Just have one overworld (or fractal), and have travel options marked with distances, and you get miles % 1 random encounters while traversing. It was quite the simplifying revelation.");
 }
-function map(x,y) {return "@";}
-
-maparray = [
-[""],
-];
 
 //##The Mainland##
 rooms['Home'] = function(arg){
@@ -322,7 +330,7 @@ rooms[''] = function(arg){
 function ascend(){
 rooms = {};
 rooms["Home"] = function(arg){
-	if(text == "Look in Mirror"){
+	if(arg == "Look in Mirror"){
 		addcontent("<img src='assests/god/zalphalo.png'></img>");
 		addcontent("Yep. That's you.");
 	} else {
@@ -331,7 +339,7 @@ rooms["Home"] = function(arg){
 	addcontent("You are in your home.")
 	addop("Look in Mirror");
 	addop("Leave Home");
-	if(text == "Leave Home"){
+	if(arg == "Leave Home"){
 		go("Home Town");
 	}
 }

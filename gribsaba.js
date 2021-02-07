@@ -1,6 +1,7 @@
 //FOR INTERNAL USE:
 var title = document.getElementById("title");
 var content = document.getElementById("content");
+var commentary = document.getElementById("commentary");
 var ops = document.getElementById("ops"); //options
 var hud = document.getElementById("hud"); //heads-up display
 var himg = document.getElementById("himg"); //header image
@@ -16,6 +17,7 @@ function clearall(){
 	title.innerHTML = "";
 	content.innerHTML = "";
 	ops.innerHTML = "";
+  commentary.innerHTML = "";
 	//objects can override this if need be:
 	settitle(roomhist[0]);
 	himg.innerHTML = "";
@@ -32,8 +34,8 @@ var roomhist = ["Main Menu"];
 function action(arg){
 	clearall();
 	sethimg(roomhist[0],arg);
-	rooms[roomhist[0]](arg)
-	refreshhud()//I'm too lazy to not hard-code this
+	rooms[roomhist[0]](arg);
+	refreshhud();
 }
 function go(room){
 	roomhist.unshift(room);
@@ -50,9 +52,14 @@ function addcontent(arg){
 	//types of linebreaks
 }
 function addop(arg){
-	var actionarg = arg.replace("\'","");//actions are not allowed to have double quotes
-	//because that would mess up the html
+	var actionarg = arg.replace("\'","");//strip single quotes (for html compatibility). actions are not allowed to have double quotes, also for html reasons //consider allowing these and just encoding smarter
 	ops.innerHTML = ops.innerHTML + "<button onclick=\"action('"+actionarg+"')\">"+arg+"</button>";
+}
+
+function addcommentary(arg){
+  if(showcommentary){
+    commentary.innerHTML = commentary.innerHTML + arg.replace("\n","<br>") + "<br>"; //technically, you're allowed to have multiple calls to addcommentary for one room, but I don't do this.
+  }
 }
 
 function imgfile(arg){return "assets/"+arg+".png"}
@@ -73,10 +80,10 @@ function addroom(title, main, doors, items, nooks, slots, commentary){
 	//Main is the string to be printed or the fn that returns the string to be printed
 	//Each door should either be a string that is a name of a room
 	//	or an array of two where the second string is what will be on the button
-	//nooks are like psudeo rooms in the same room,
+	//Nooks are like psudeo rooms in the same room; accessible via ops, they don't change your location but can display new text
 	//	they should be an array of [optext, main]
 	//Slots are buttons you only get to see if you have a certain item
-	//	amd then they take the item to
+	//	and then they take the item from you
 	if (typeof title === 'object'){
 		rooms[title].title = title;
 	} else {
@@ -126,9 +133,11 @@ function displayroom(room, arg){
 	})
 		if (typeof main == "function"){main = main(arg);}
 		addcontent(main);
+  if(showcommentary && commentary){
+    addcontent(commentary);
+  }
 
 		if (arg == d[1]){go(d[0])};
-	//}
 
 }
 
