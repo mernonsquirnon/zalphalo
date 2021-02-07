@@ -117,6 +117,7 @@ floor, which you drank the night before your adventure started.*/
 	} else if(arg == "Look in Mirror") {
 		addcontent(img('zalphalo'));
 		addcontent("Yep. That's you.");
+    addcommentary("Do you see how Zalphalo's mirror is framed like his family photo, and the place where his wife and daughter would be is destroyed?");
 	} else {
 		addcontent(img('home'));
 	}
