@@ -261,11 +261,15 @@ rooms['Talk to the Theologician'] = function(arg){
 	addop("Go back");
 	addcontent("The Theologician stands before you. He is dressed in ragged priest's attire. He has messy black hair and frameless glasses. He is carrying a Rosary and a knowing grin.");
 	if(arg == "Ask about the Structure of the Universe"){
-		addcontent('"Who are you?" you ask.<br><br> He explains: "I am a Theologician, or Computational Theologian. Through study of various informational structures, I have derived the true nature of the universe. This is what allows me to exist simultaneously in various places and times-- in fact, they are the same place and the same time, but among mortal only I have discerned this fact.<br><br>"Personspacetime is like a string of prayer beads" he explains, holding up the rosary so you can get a good look. "Each bead is a room, and the path you trace is the sequence of beads. It\'s fairly trivial to appear in multiple beads of another\'s Personspacetime at the same time if," he folds the string of beads multiple times with a flourish "You know the secret."');
+		addcontent('"Who are you?" you ask.<br><br> He explains: "I am a Theologician, or Computational Theologian. Through study of various informational structures, I have derived the true nature of the universe. This is what allows me to exist simultaneously in various places and times-- in fact, they are the same place and the same time, but among mortals only I have discerned this fact.<br><br>"Personspacetime is like a string of prayer beads" he explains, holding up the rosary so you can get a good look. "Each bead is a room, and the path you trace is the sequence of beads. It\'s fairly trivial to appear in multiple beads of another\'s Personspacetime at the same time if," he folds the string of beads multiple times into itself "You know the secret."');
 	}
+  //This is no longer canon because it would be a gyp for your family not to be real. Luckily, this dialogue was merely servicable, and can be deleted.
+  /*
 	if(arg == "Ask about the Creation of the Universe"){
+    //IDK if I'll have something else I want him to say about god creating the earth.
 		addcontent("\"The universe was created yesterday,\" he tells you.<br><br>\"Impossible!\" you  say, \"I remember so much before yesterday!\"<br><br>\"God created those memories yesterday,\" he says.<br><br>You stay silent.<br><br>\"He's going to destroy the world tomorrow,\" he says.<br><br>\"Then I'd better go stop him,\" you say. He nods.");
 	}
+  */
 	if(arg == "Ask about the Fertility Goddess"){
 		addcontent('"What\'s up with that mural?" you ask');
 	}
