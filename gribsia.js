@@ -35,7 +35,7 @@ var hud = document.getElementById("hud"); //heads-up display
 
 function refreshhud(){
   if (showhud == true){
-    hud.innerHTML = player.name +" | "+player.power+" | "+inventory.list();
+    hud.innerHTML = player.name +" | "+player.power+" | "+(time? time+" | ": "") +inventory.list();
   } else {
     hud.innerHTML = "";
   }
@@ -57,6 +57,7 @@ function settitle(arg){
 if (typeof rooms == "undefined") {rooms = {};}
 if (typeof showhud == "undefined") {showhud = true;}
 if (typeof showcommentary == "undefined") {showcommentary = false;}
+if (typeof time == "undefined") {time = "";}
 
 var roomhist = []; //stack to track player's path. the current room is always roomhist[0], the prev room is always roomhist[1], etc. Unclear if this is really needed. We do currently use it for refresh, though, though that could probably use something else...
 

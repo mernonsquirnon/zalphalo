@@ -73,7 +73,7 @@ rooms['Overworld'] = {
 rooms['Home'] = {
 //this should have a picture...
 // There is an empty bottle of cooking sherry floor, which you drank the night before your adventure started.
-  description: function(){return (showhud = true) &&
+  description: function(){return (showhud = true) && (time = "Monday") &&
   (epigraph? "" : (epigraph = true) && "<center><i>And you may find yourself<br>Living in a shotgun shack<br>And you may find yourself<br>In another part of the world<br></i></center>")
   +"You are in your home.\nThe home is small and also in a state of destruction, without most of a roof.\n Your favorite cookboook sits on a little pedestal to the north.\nYour door has blown open in the night."
   },
@@ -103,7 +103,8 @@ rooms['<i>Working Lunch</i>'] = {
   "Before everything went to shit, this was a pretty important book. Now only Chapter 3, <i>On The First Principles of Chefjutsu</i>, matters anymore. You turn to that page, and begin to read."+
   chefjutsuexplanation+
   "The rest of the book mostly involves ingredients that you'd have to get from a grocery store. Grocery stores are notoriously hard to find in the post-apocalyptic wasteland, so you close the book.",
-  doors: [ ["Go back", "Home"] ]
+  doors: [ ["Go back", "Home"] ],
+  commentary: "Zalphalo creates by destroying and vice versa.",
 }
 
 rooms['Village'] = {
