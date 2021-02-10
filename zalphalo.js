@@ -2,6 +2,17 @@
 // This file contains the entire game Zalphalo, but relies on the game engine gribsia.js.
 // This big, beautiful source document is split into many parts each one titled with a comment in the style of a markdown title, with the hashmarks.
 
+//Run in console mode:
+if(typeof window === 'undefined'){
+  var fs = require('fs');
+  var gribsia = require('./gribsia');
+  var rooms=gribsia.rooms;
+  img=gribsia.img;
+  go=gribsia.go;
+  // include file as though we dumped both in the same page.
+  //eval(fs.readFileSync('gribsia.js')+'');
+}
+
 //## Misc variables and stuff
 showhud = false;//shouldn't show before the game begins
 showcommentary = false; //off unless the player turns it on.
@@ -12,13 +23,12 @@ var tutorialcomplete = false;
 var potterrescued = false;
 var apprenticerescued = false;
 var sonrescued = false;
-rooms = {};
 symbols = {}; //some of our indirection is doing an end-run around hoisting, so we have to declare these up front.
-symbols.sweet = "♥" //heart = love = sweet
-symbols.salty = "♦" //salt crytals sort of look like this
-symbols.sour = "♠" //a "sharp" taste... though bitter is also called "sharp" sometimes
-symbols.bitter = "♣"//literal clovers are bitter, taste planty. I'm told.
-symbols.umami = "<b>U</b>"//other candidates for this symbol include:
+symbols.sweet = "♥"; //heart = love = sweet
+symbols.salty = "♦"; //salt crytals sort of look like this
+symbols.sour = "♠"; //a "sharp" taste... though bitter is also called "sharp" sometimes
+symbols.bitter = "♣";//literal clovers are bitter, taste planty. I'm told.
+symbols.umami = "<b>U</b>";//other candidates for this symbol include:
 //★, ☆, †, or 🍖 (meat on bone emoji)
 var chefjutsuexplanation = "<blockquote>Chefjustu is the art of using food not for eating, but for combat. The basic idea of chefjustu is to combine foods together on a plate, and then hurl the plate at your opponent.<br>"+
   "There are 5 different basic tastes: Sweet("+symbols.sweet+"), Salty("+symbols.salty+"), Sour("+symbols.sour+"), Bitter("+symbols.bitter+"), and Umami("+symbols.umami+"). In any given dish, the amount of Sweet must equal the amount of Sour, the amount of Salty must equal the amount of Bitter, and the amount of Umami must equal or exceed the sum total of the four other flavors.<br>"+
@@ -26,7 +36,7 @@ var chefjutsuexplanation = "<blockquote>Chefjustu is the art of using food not f
 
 //##Main Menu##
 rooms['Main Menu'] = {
-  description: function(){return "<pre>"+
+  description: function(){return "<pre>\n"+
     "  ______     _       _           _       \n"+
     " |___  /    | |     | |         | |      \n"+
     "    / / __ _| |_ __ | |__   __ _| | ___  \n"+
@@ -38,7 +48,7 @@ rooms['Main Menu'] = {
     "</pre>\n"+
     "Welcome to Zalphalo! Good to have you with us!<br>"+
     //this should be a nook but whatever.
-  (showcommentary? "<button onclick=\"showcommentary = false; refresh();\">Disable Authors Commentary</button>" : "<button onclick=\"showcommentary = true; refresh();\">Enable Authors Commentary</button>")},
+  (showcommentary? "<button onclick=\"showcommentary = false; go(\'Main Menu\');\">Disable Authors Commentary</button>" : "<button onclick=\"showcommentary = true; go(\'Main Menu\');\">Enable Authors Commentary</button>")},
   doors: [
     ['Begin the Adventure!', 'An Understanding Barely Tasted In A Dream The Night Before'],
     ["Help", "Help"],
@@ -131,7 +141,7 @@ rooms["Funston's Barn"] = {
   description: ()=> "You are in Funston's Barn."+
     (tennismachinedefeated? "" : "\nYou can hear the whirring of your tennis machine-- a contraption that launches tennis balls at you for training purposes-- coming from behind the barn.")+
     (millettaken? "" : "\n There is a bag of millet here."), //this should be an item, but whatever, this was slightly easier.
-  nooks: [ ["Go out Back", ()=> fight("Tennis Ball") ], [()=> millettaken? "" : "Take Millet" , ()=> {inventory.add({name: "Millet", count: "Sack of", umami: 1}); millettaken = true; refresh(); return "You take the millet."}] ], //maybe this will end up a door and an item, idk
+  nooks: [ ["Go out Back", ()=> fight("Tennis Ball") ], [()=> millettaken? "" : "Take Millet" , ()=> {inventory.add({name: "Millet", count: "Sack of", umami: 1}); millettaken = true; go("Funston's Barn"); return "You take the millet."}] ], //maybe this will end up a door and an item, idk
     //postfight:
     //(!inventory.contains("tennis racket")?"\nYou've often relieved your frustrations by rallying tennis balls against the machine, but unless you find your racket it seems you'll never win.");
   doors: [["Go back to the Village","Village"]]
@@ -159,7 +169,7 @@ rooms['Coffee Shop'] = {
   doors: [ [ ()=> beancount <= 0 ?"Go into the Trapdoor": "", "Under The Bean House"], ["Leave the Coffee Shop", "Outside the Coffee Shop" ] ]
 }
 
-
+var outside_theo = "Main Menu";
 rooms['Talk to the Theologician'] = {
   description: "The Theologician stands before you. He is dressed in ragged priest's attire. He has messy black hair and frameless glasses. He is carrying a Rosary and a knowing grin.",
   nooks: [
@@ -169,7 +179,7 @@ rooms['Talk to the Theologician'] = {
     ["Ask about the Eagles","\"It's just a well-packed n-dimensional cube of eagles, bro,\" he reassures you."],
     ["Ask about Wolf Gods","\"Ah, Gold Wolf and Silver Wolf. Say hi to them for me.\""],
     ["Ask about God", ()=> {inventory.push({name: "Eucharist", umami: 1, plate: 0}); return '"If you want to kill God," he says, "You\'re going to need trigger a nuclear explosion with this." he hands you the Eucharist. "This will get you to the God Realm. Good luck."'}],
-    ["Leave", ()=>go(roomhist[1])||""]// the idea is since this guy is in multiple places you have to be able to leave back to different places //The ||"" is just so there is a string value for the processing function to consider.
+    ["Leave", ()=>{go(outside_theo)||""}]// the idea is since this guy is in multiple places you have to be able to leave back to different places //The ||"" is just so there is a string value for the processing function to consider.
   ]
 }
 

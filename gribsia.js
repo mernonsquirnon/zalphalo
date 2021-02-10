@@ -1,8 +1,8 @@
 /* This is gribsia, the structured button-and-text-adventure engine. It is the sister of gribsaba, a prototype unstructured engine I never released as it was too mess, and the daughter of gribso, the pure text adventure engine I haven't yet had call to make.
    Conceptually, every gribsia game is just one big (javascript) object, in the following form:
 rooms = {
-  vars : {bleh: "any spare variables you want to keep around go here, maybe (maybe they would be better off in a room, or just under their own name...)"}
-  "player position" : "Main Menu"
+  vars : "loose vars can be stored in the top level, or within any room!"
+  position: "Main Menu"
   "" : /*title of room (string)
   { (not sure if himg is going to make the cut...)
     description: "" (sf, gets displayed when in room),
@@ -25,13 +25,87 @@ rooms = {
   Note: you have to load this file, then the source file of the particular game. Then, in the game source code, call go("Main Menu"); or whereever you want your first room to be.
 */
 
-var title = document.getElementById("title");
-var himg = document.getElementById("himg"); //header image
-var nook = document.getElementById("nook");
-var description = document.getElementById("description");
-var commentary = document.getElementById("commentary");
-var ops = document.getElementById("ops"); //options
-var hud = document.getElementById("hud"); //heads-up display
+//Some default values that can be set by the game that runs on this engine.
+if (typeof rooms == "undefined") {
+  rooms = {position: ""};
+}
+if (typeof showhud == "undefined") {showhud = true;}
+if (typeof showcommentary == "undefined") {showcommentary = false;}
+if (typeof time == "undefined") {time = "";}
+
+//gribsia can run in either a web browser, or on the command line using node. We detect if we are on the command line by the lack of a window object.
+if(typeof window === 'undefined'){
+  console.log("console detected");
+  module.exports = { rooms: rooms, img: img, go: go } //TODO: actually export things?
+
+  //we cleverly just redefine some of the display stuff here. It mostly works.
+  var title = {innerHTML: ""};
+  var himg = {innerHTML: ""}; //header image
+  var nook = {innerHTML: ""};
+  var description = {innerHTML: ""};
+  var commentary = {innerHTML: ""};
+  var ops = {innerHTML: ""}; //options
+  var hud = {innerHTML: ""}; //heads-up display
+  var optionmenu = {};
+  adddescription = function(arg){description.innerHTML+=arg+"\n";}
+  addcommentary = function(arg){commentary.innerHTML+="[[[ "+arg+" ]]]\n";}
+  settitle = function(arg){title=arg;}
+  addop = function(displaytext, action){
+    if(!displaytext){console.log("didn't create op because displaytext was empty");return;}
+    optionmenu[displaytext] = action;
+  }
+
+  function parse_terse_commands(command, commandactionpairsobject){
+    var keys = [];
+    for (var key of Object.keys(commandactionpairsobject)){
+      keys.unshift(key);
+    }
+    var i = 0;
+    var j
+    while (keys.length > 1){
+      nextkeys = [];
+      //console.log(command, keys, commandactionpairsobject);
+      var matchy = command.toLowerCase()[i];
+      for (key of keys){
+        if (matchy==key.toLowerCase()[i]){
+          nextkeys.unshift(key);
+        }
+      }
+      i++;
+      keys=nextkeys;
+    }
+    if (keys.length > 0){
+      commandactionpairsobject[keys[0]]();
+    } else {
+      console.log("Sorry, I didn't understand that.");
+    }
+  }
+
+  //I guess this extremely verbose process is the idiomatic way you prompt in this godforsaken ecosystem?
+  const readline = require('readline');
+  const rl = readline.createInterface({input: process.stdin, output: process.stdout});
+  function command_line_prompt_loop(command){
+    command && parse_terse_commands(command, optionmenu);
+    if(command=="q"){throw "User terminated game.";}
+    console.log(title);
+    console.log(description.innerHTML);
+    console.log(commentary.innerHTML);
+    console.log(hud.innerHTML);
+    for (var key of Object.keys(optionmenu)){
+      console.log(key);
+    }
+    rl.question('> ', command_line_prompt_loop);
+  }
+  command_line_prompt_loop();
+} else {
+  var title = document.getElementById("title");
+  var himg = document.getElementById("himg"); //header image
+  var nook = document.getElementById("nook");
+  var description = document.getElementById("description");
+  var commentary = document.getElementById("commentary");
+  var ops = document.getElementById("ops"); //options
+  var hud = document.getElementById("hud"); //heads-up display
+}
 
 function refreshhud(){
   if (showhud == true){
@@ -40,6 +114,7 @@ function refreshhud(){
     hud.innerHTML = "";
   }
 }
+
 function clearall(){
   title.innerHTML = "";
   himg.innerHTML = "";
@@ -47,22 +122,15 @@ function clearall(){
   description.innerHTML = "";
   ops.innerHTML = "";
   commentary.innerHTML = "";
+  optionmenu = {}; //only for text console
 }
 
 function settitle(arg){
   title.innerHTML = "<h1>"+arg+"</h1>";
 }
 
-//Some default values that can be set by the game that runs on this engine.
-if (typeof rooms == "undefined") {rooms = {};}
-if (typeof showhud == "undefined") {showhud = true;}
-if (typeof showcommentary == "undefined") {showcommentary = false;}
-if (typeof time == "undefined") {time = "";}
-
-var roomhist = []; //stack to track player's path. the current room is always roomhist[0], the prev room is always roomhist[1], etc. Unclear if this is really needed. We do currently use it for refresh, though, though that could probably use something else...
-
 function go(room){
-  roomhist.unshift(room);
+  rooms.position=room;
   clearall();
   sethimg(room);
   displayroom(room);
@@ -70,7 +138,7 @@ function go(room){
 }
 
 function adddescription(arg){
-  description.innerHTML = description.innerHTML + arg.replaceAll("\n","<br>") +"<br>";
+  description.innerHTML = description.innerHTML + arg.replace(/\n/g,"<br>") +"<br>";
   //It's technically poor practice to disregard <p>s and just throw in <br>s when you need linebreaks but I don't really buy into having two different types of linebreaks
 }
 function addop(displaytext, action){
@@ -83,12 +151,12 @@ function addop(displaytext, action){
 
 function addcommentary(arg){
   if(showcommentary){
-    commentary.innerHTML = commentary.innerHTML + arg.replaceAll("\n","<br>") + "<br>"; //technically, you're allowed to have multiple calls to addcommentary for one room, but I don't do this.
+    commentary.innerHTML = commentary.innerHTML + arg.replace(/\n/g,"<br>") + "<br>"; //technically, you're allowed to have multiple calls to addcommentary for one room, but I don't do this.
   }
 }
 
-function imgfile(arg){return "assets/"+arg.replaceAll("\'","")+".png"}
-function img(arg){return "<img src='"+imgfile(arg.replaceAll("\'",""))+"'>"}
+function imgfile(arg){return "assets/"+arg.replace(/\'/g,"")+".png"}
+function img(arg){return "<img src='"+imgfile(arg.replace(/\'/g,""))+"'>"}
 function sethimg(room){
   //note that this fn may not give you the img you expect for some reason...
   //himg.innerHTML = "<img src='"+imgfile(room)+"' onerror=\"sethimg('"+room.replace("\'","")+"', null);\">"; console.log(1+himg.innerHTML)
@@ -104,18 +172,16 @@ function stringeval(sf){
   return sf; //probably an object
 }
 
-function refresh(){go(roomhist[0]); roomhist.shift();/*Don't count the refresh in roomhist*/} //not necessarily idempotent!
-
 function adddoor(displaytext, locationtext){ //Only takes strings, not sfs!
   addop(displaytext, function(){go(locationtext);});
 }
 
 function additem(displaytext, item){ //Only takes strings, not sfs!
-  addop(displaytext, function(){inventory.add(item); rooms[roomhistory[0]].items.remove(item);});
+  addop(displaytext, function(){inventory.add(item); rooms[rooms.position].items.remove(item);});
 }
 
 function addnook(displaytext, description){ //Only takes strings, not sfs!
-  addop(displaytext, function(){nook.innerHTML = stringeval(description).replaceAll("\n","<br>")});
+  addop(displaytext, function(){nook.innerHTML = stringeval(description).replace(/\n/g,"<br>")});
 }
 
 function displayroom(room){
@@ -146,7 +212,7 @@ function displayroom(room){
   rooms[room].items && rooms[room].items.map(function f(i){ 
     var ii = stringeval(i);
     if (ii){
-    additem("Take "+ii, ii);
+      additem("Take "+ii, ii);
     }
   })
 }
